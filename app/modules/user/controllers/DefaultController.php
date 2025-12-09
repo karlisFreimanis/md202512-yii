@@ -2,6 +2,7 @@
 
 namespace app\modules\user\controllers;
 
+use app\components\RoleAccessRule;
 use app\models\User;
 use app\modules\user\repositories\UserRepository;
 use Yii;
@@ -38,8 +39,11 @@ class DefaultController extends Controller
                 ],
             ],
             'access' => [
-                'class' => AccessControl::class,
                 // 'only' => ['create', 'update', 'delete'], // restrict all
+                'class' => AccessControl::class,
+                'ruleConfig' => [
+                    'class' => RoleAccessRule::class,
+                ],
                 'rules' => [
                     [
                         'actions' => ['create', 'update'],
@@ -48,6 +52,11 @@ class DefaultController extends Controller
                     ],
                     [
                         'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['admin'], // only admin role
+                    ],
+                    [
+                        'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['admin'], // only admin role
                     ],

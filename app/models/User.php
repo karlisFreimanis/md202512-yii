@@ -14,8 +14,21 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
- * User model for database-backed authentication.
- * Works with 'user' table.
+ * This is the model class for table "users".
+ *
+ * @property int $id
+ * @property int|null $manager_id
+ * @property string $username
+ * @property string $first_name
+ * @property string $last_name
+ * @property int $access_level
+ * @property string|null $birthday
+ * @property string $password
+ * @property string|null $auth_key
+ *
+ * @property Role[] $roles
+ * @property Task[] $tasks
+ * @property UserRole[] $userRoles
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -50,24 +63,33 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules(): array
     {
         return [
-            [['username', 'first_name', 'last_name', 'access_level'], 'required'],
-            ['username', 'unique'],
-            ['access_level', 'integer'],
-            ['birthday', 'date', 'format' => 'php:Y-m-d'],
-            ['manager_id', 'integer'],
+            [['manager_id', 'birthday', 'auth_key'], 'default', 'value' => null],
+            [['access_level'], 'default', 'value' => 0],
+            [['manager_id', 'access_level'], 'integer'],
+            [['username', 'first_name', 'last_name'], 'required'],
+            [['birthday'], 'safe'],
+            [['username', 'password'], 'string', 'max' => 255],
+            [['first_name', 'last_name'], 'string', 'max' => 100],
+            [['auth_key'], 'string', 'max' => 32],
+            [['username'], 'unique'],
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function attributeLabels(): array
     {
         return [
+            'id' => 'ID',
+            'manager_id' => 'Manager ID',
             'username' => 'Username',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
             'access_level' => 'Access Level',
-            'manager_id' => 'Manager',
             'birthday' => 'Birthday',
             'password' => 'Password',
+            'auth_key' => 'Auth Key',
         ];
     }
 
@@ -134,6 +156,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function getRoles(): ActiveQuery
     {
         return $this->hasMany(Role::class, ['id' => 'role_id'])->viaTable('user_roles', ['user_id' => 'id']);
+    }
+
+    public function hasRole(string $roleName): bool
+    {
+        return array_any($this->roles, fn($role) => $role->name === $roleName);
     }
 
     /**
