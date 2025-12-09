@@ -1,5 +1,7 @@
 <?php
 
+use app\modules\user\models\User;
+
 /**
  * This class only exists here for IDE (PHPStorm/Netbeans/...) autocompletion.
  * This file is never included anywhere.
@@ -27,7 +29,7 @@ class __Application {
 }
 
 /**
- * @property app\models\User $identity
+ * @property User $identity
  */
 class __WebUser {
 }

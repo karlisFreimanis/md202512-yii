@@ -2,9 +2,10 @@
 
 namespace app\modules\user\controllers;
 
-use app\models\User;
+use app\modules\user\models\User;
 use app\modules\user\repositories\UserRepository;
 use Yii;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -34,6 +35,22 @@ class DefaultController extends Controller
                     'create' => ['POST'],
                     'update' => ['POST'],
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                // 'only' => ['create', 'update', 'delete'], // restrict all
+                'rules' => [
+                    [
+                        'actions' => ['create', 'update'],
+                        'allow' => true,
+                        'roles' => ['@'], // logged-in users
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['admin'], // only admin role
+                    ],
                 ],
             ],
         ];

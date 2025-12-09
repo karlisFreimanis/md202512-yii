@@ -2,9 +2,13 @@
 
 declare(strict_types=1);
 
-namespace app\models;
 
+namespace app\modules\user\models;
+
+use app\modules\tasks\models\Task;
 use Yii;
+use yii\base\InvalidConfigException;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -118,6 +122,37 @@ class User extends ActiveRecord implements IdentityInterface
         $this->auth_key = Yii::$app->security->generateRandomString();
 
         return $this;
+    }
+
+    /**
+     * Gets query for [[Roles]].
+     *
+     * @return ActiveQuery
+     * @throws InvalidConfigException
+     */
+    public function getRoles(): ActiveQuery
+    {
+        return $this->hasMany(Role::class, ['id' => 'role_id'])->viaTable('user_roles', ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Tasks]].
+     *
+     * @return ActiveQuery
+     */
+    public function getTasks(): ActiveQuery
+    {
+        return $this->hasMany(Task::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[UserRoles]].
+     *
+     * @return ActiveQuery
+     */
+    public function getUserRoles(): ActiveQuery
+    {
+        return $this->hasMany(UserRole::class, ['user_id' => 'id']);
     }
 
 }

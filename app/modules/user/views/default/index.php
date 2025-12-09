@@ -1,11 +1,14 @@
 <?php
-use yii\helpers\Html;
+
+use app\modules\user\models\User;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\web\View;
+use yii\widgets\ActiveForm;
 
 /* @var View $this */
 /* @var array $users keyed by ID */
-/* @var app\models\User $newUser */
+/* @var User $newUser */
 
 $this->title = 'Users List';
 $usersById = $users;
@@ -13,7 +16,7 @@ $usersById = $users;
 // Prepare data for JS
 $usersJson = json_encode(
         ArrayHelper::toArray($usersById, [
-                app\models\User::class => [
+                User::class => [
                         'id',
                         'username',
                         'first_name',
@@ -98,7 +101,6 @@ $usersJson = json_encode(
         <div class="modal-dialog">
             <div class="modal-content">
                 <?php
-                use yii\widgets\ActiveForm;
                 $form = ActiveForm::begin([
                         'id' => 'user-form',
                         'enableClientValidation' => true,
