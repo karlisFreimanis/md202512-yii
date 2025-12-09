@@ -48,6 +48,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'user/<action:\w+>' => 'user/default/<action>',
             ],
         ],
     ],

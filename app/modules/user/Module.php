@@ -12,10 +12,12 @@ class Module extends \yii\base\Module
      */
     public $controllerNamespace = 'app\modules\user\controllers';
 
+    public $defaultRoute = 'default';
+
     /**
      * {@inheritdoc}
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
