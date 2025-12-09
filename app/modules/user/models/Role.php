@@ -3,6 +3,7 @@
 
 namespace app\modules\user\models;
 
+use app\models\User;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;
 

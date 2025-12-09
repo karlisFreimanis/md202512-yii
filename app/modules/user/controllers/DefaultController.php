@@ -2,7 +2,7 @@
 
 namespace app\modules\user\controllers;
 
-use app\modules\user\models\User;
+use app\models\User;
 use app\modules\user\repositories\UserRepository;
 use Yii;
 use yii\filters\AccessControl;

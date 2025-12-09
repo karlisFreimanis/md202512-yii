@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\modules\user\repositories;
 
-use app\modules\user\models\User;
+use app\models\User;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 

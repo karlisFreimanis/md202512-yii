@@ -1,11 +1,11 @@
 <?php
 
-use app\modules\user\models\User;
+use app\models\User;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $model User */
+/* @var $model \app\models\User */
 /* @var $usersById array */
 /* @var $action array */
 /* @var $modalTitle string */

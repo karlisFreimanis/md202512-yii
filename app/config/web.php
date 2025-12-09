@@ -1,7 +1,6 @@
 <?php
-
-use app\modules\constructionSite\Module as ConstructionSiteModule;
 use app\modules\user\Module as UserModule;
+use app\modules\constructionSite\Module as ConstructionSiteModule;
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
@@ -23,7 +22,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'User',
+            'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [

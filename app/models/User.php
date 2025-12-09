@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-
-namespace app\modules\user\models;
+namespace app\models;
 
 use app\modules\tasks\models\Task;
+use app\modules\user\models\Role;
+use app\modules\user\models\UserRole;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;

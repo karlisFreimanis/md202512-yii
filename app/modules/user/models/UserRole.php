@@ -2,6 +2,7 @@
 
 namespace app\modules\user\models;
 
+use app\models\User;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 

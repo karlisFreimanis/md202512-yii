@@ -2,8 +2,8 @@
 
 namespace app\modules\tasks\models;
 
+use app\models\User;
 use app\modules\constructionSite\models\ConstructionSite;
-use app\modules\user\models\User;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
