@@ -25,16 +25,16 @@ class m251209_095038_create_users_roles_table extends Migration
 
         // Assign roles to first 3 users
         $this->batchInsert('user_roles', ['user_id', 'role_id'], [
-            [1, 1], // admin -> admin
-            [2, 2], // manager -> manager
-            [3, 3], 
-            [4, 3], 
-            [5, 3], 
-            [6, 3], 
-            [7, 3], 
-            [8, 3], 
-            [9, 3], 
-            [10, 3], 
+            [1, 2], // admin -> admin
+            [2, 3], // manager -> manager
+            [3, 1],
+            [4, 1],
+            [5, 1],
+            [6, 1],
+            [7, 1],
+            [8, 1],
+            [9, 1],
+            [10, 1],
         ]);
     }
 

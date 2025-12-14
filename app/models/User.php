@@ -160,7 +160,13 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function hasRole(string $roleName): bool
     {
-        return array_any($this->roles, fn($role) => $role->name === $roleName);
+        foreach ($this->roles as $role) {
+            if ($role->name === $roleName) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -180,7 +186,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getUserRoles(): ActiveQuery
     {
-        return $this->hasMany(UserRole::class, ['user_id' => 'id']);
+        return $this->hasMany(Role::class, ['id' => 'role_id'])
+            ->via('userRoles');
     }
 
 }

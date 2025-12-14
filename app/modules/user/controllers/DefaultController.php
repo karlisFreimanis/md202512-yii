@@ -46,19 +46,14 @@ class DefaultController extends Controller
                 ],
                 'rules' => [
                     [
-                        'actions' => ['create', 'update'],
+                        'actions' => ['create', 'update', 'delete'],
                         'allow' => true,
-                        'roles' => ['@'], // logged-in users
-                    ],
-                    [
-                        'actions' => ['delete'],
-                        'allow' => true,
-                        'roles' => ['admin'], // only admin role
+                        'roles' => ['admin'],
                     ],
                     [
                         'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['admin'], // only admin role
+                        'roles' => ['@'], // logged-in users
                     ],
                 ],
             ],

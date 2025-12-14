@@ -10,18 +10,13 @@ class RoleAccessRule extends AccessRule
      * @param User $user
      * @return bool
      */
-    protected function matchRole( $user): bool
+    protected function matchRole($user): bool
     {
-        //todo extend
-        if (empty($this->roles)) {
-            return true;
+        if ($user->isGuest) {
+            return false;
         }
 
-        foreach ($this->roles as $role) {
-            if (!$user->isGuest && $user->identity->hasRole($role)) {
-                return true;
-            }
-        }
-        return false;
+        $currentUserRoles = array_column($user->identity->getRoles()->asArray()->all(), 'name');
+        return (bool)array_intersect($this->roles, $currentUserRoles);
     }
 }
