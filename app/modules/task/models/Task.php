@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\tasks\models;
+namespace app\modules\task\models;
 
 use app\models\User;
 use app\modules\constructionSite\models\ConstructionSite;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\models;
 
-use app\modules\tasks\models\Task;
+use app\modules\task\models\Task;
 use app\modules\user\models\Role;
 use app\modules\user\models\UserRole;
 use Yii;
@@ -34,6 +34,8 @@ class User extends ActiveRecord implements IdentityInterface
 {
     public const string SCENARIO_CREATE = 'create';
     public const string SCENARIO_UPDATE = 'update';
+    public const string ATTRIBUTE_PASSWORD = 'password';
+    public const string ATTRIBUTE_AUTH_KEY = 'auth_key';
 
     public function scenarios(): array
     {
@@ -44,7 +46,7 @@ class User extends ActiveRecord implements IdentityInterface
             'first_name',
             'last_name',
             'access_level',
-            'password',
+            self::ATTRIBUTE_PASSWORD,
         ];
 
         $scenarios[self::SCENARIO_UPDATE] = [
@@ -63,14 +65,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules(): array
     {
         return [
-            [['manager_id', 'birthday', 'auth_key'], 'default', 'value' => null],
+            [['manager_id', 'birthday', self::ATTRIBUTE_AUTH_KEY], 'default', 'value' => null],
             [['access_level'], 'default', 'value' => 0],
             [['manager_id', 'access_level'], 'integer'],
             [['username', 'first_name', 'last_name'], 'required'],
             [['birthday'], 'safe'],
-            [['username', 'password'], 'string', 'max' => 255],
+            [['username', self::ATTRIBUTE_PASSWORD], 'string', 'max' => 255],
             [['first_name', 'last_name'], 'string', 'max' => 100],
-            [['auth_key'], 'string', 'max' => 32],
+            [[self::ATTRIBUTE_AUTH_KEY], 'string', 'max' => 32],
             [['username'], 'unique'],
         ];
     }
@@ -88,8 +90,8 @@ class User extends ActiveRecord implements IdentityInterface
             'last_name' => 'Last Name',
             'access_level' => 'Access Level',
             'birthday' => 'Birthday',
-            'password' => 'Password',
-            'auth_key' => 'Auth Key',
+            self::ATTRIBUTE_PASSWORD => 'Password',
+            self::ATTRIBUTE_AUTH_KEY => 'Auth Key',
         ];
     }
 
@@ -105,7 +107,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public static function findIdentityByAccessToken($token, $type = null): ?IdentityInterface
     {
-        return static::findOne(['auth_key' => $token]);
+        return static::findOne([self::ATTRIBUTE_AUTH_KEY => $token]);
     }
 
     public static function findByUsername(string $username): static|null

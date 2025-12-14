@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\tasks\controllers;
+namespace app\modules\task\controllers;
 
 use yii\web\Controller;
 
@@ -15,6 +15,7 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
+        dd('todo');
         return $this->render('index');
     }
 }

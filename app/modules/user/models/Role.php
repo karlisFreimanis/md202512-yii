@@ -20,6 +20,14 @@ use yii\db\ActiveQuery;
 class Role extends \yii\db\ActiveRecord
 {
 
+    public const string ROLE_ADMIN = 'admin';
+    public const string ROLE_MANAGER = 'manager';
+    public const string ROLE_EMPLOYEE = 'employee';
+    public const ROLE_ALL = [
+        self::ROLE_ADMIN,
+        self::ROLE_MANAGER,
+        self::ROLE_EMPLOYEE,
+    ];
 
     /**
      * {@inheritdoc}

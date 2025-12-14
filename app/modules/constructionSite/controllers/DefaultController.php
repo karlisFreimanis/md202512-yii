@@ -2,6 +2,8 @@
 
 namespace app\modules\constructionSite\controllers;
 
+use app\modules\constructionSite\models\ConstructionSite;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 
 /**
@@ -9,12 +11,22 @@ use yii\web\Controller;
  */
 class DefaultController extends Controller
 {
-    /**
-     * Renders the index view for the module
-     * @return string
-     */
-    public function actionIndex()
+    public function actionIndex(): string
     {
-        return $this->render('index');
+        $constructionSites   = ConstructionSite::find()->all();
+
+        $modelsById = [];
+        foreach (ArrayHelper::toArray($constructionSites) as $constructionSite) {
+            $modelsById[$constructionSite['id']] = $constructionSite;
+        }
+
+        return $this->render('index', [
+            'newModel' => new ConstructionSite(),
+            'rows' => ArrayHelper::index($constructionSites, 'id'), // for table rendering
+            'exclude' => [],
+            'title' => 'Construction Site List',
+            'modelJson' => json_encode($modelsById),
+            'route' => 'constructionSite',
+        ]);
     }
 }

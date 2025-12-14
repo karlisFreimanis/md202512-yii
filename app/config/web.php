@@ -1,6 +1,7 @@
 <?php
 use app\modules\user\Module as UserModule;
 use app\modules\constructionSite\Module as ConstructionSiteModule;
+use app\modules\task\Module as TaskModule;
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
@@ -13,6 +14,7 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'defaultRoute' => 'user/default/index',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -24,6 +26,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['site/login'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -49,6 +52,8 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 'user/<action:\w+>' => 'user/default/<action>',
+                'constructionSite/<action:\w+>' => 'constructionSite/default/<action>',
+                'task/<action:\w+>' => 'task/default/<action>',
             ],
         ],
     ],
@@ -57,8 +62,11 @@ $config = [
         'user' => [
             'class' => UserModule::class,
         ],
-        'constructionObject' => [
+        'constructionSite' => [
             'class' => ConstructionSiteModule::class,
+        ],
+        'task' => [
+            'class' => TaskModule::class,
         ],
     ],
 ];

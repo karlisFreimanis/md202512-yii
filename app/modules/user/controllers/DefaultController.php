@@ -3,19 +3,20 @@
 namespace app\modules\user\controllers;
 
 use app\components\RoleAccessRule;
+use app\controllers\BaseController;
 use app\models\User;
+use app\modules\user\models\Role;
 use app\modules\user\repositories\UserRepository;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 use yii\web\Response;
 
 /**
  * Default controller for the `user` module
  */
-class DefaultController extends Controller
+class DefaultController extends BaseController
 {
 
     public function __construct(
@@ -48,12 +49,12 @@ class DefaultController extends Controller
                     [
                         'actions' => ['create', 'update', 'delete'],
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => [Role::ROLE_ADMIN],
                     ],
                     [
                         'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['@'], // logged-in users
+                        'roles' => Role::ROLE_ALL,
                     ],
                 ],
             ],
@@ -66,9 +67,32 @@ class DefaultController extends Controller
      */
     public function actionIndex(): string
     {
+        $users   = User::find()->all();
+        $newUser = new User();
+
+        $usersArray = ArrayHelper::toArray($users, [
+            User::class => array_diff(array_keys($newUser->attributes), [
+                User::ATTRIBUTE_AUTH_KEY,
+                User::ATTRIBUTE_PASSWORD,
+            ]),
+        ]);
+
+        $usersById = [];
+        foreach ($usersArray as $user) {
+            $usersById[$user['id']] = $user;
+        }
+
         return $this->render('index', [
-            'newUser' => new User(),
-            'users' => ArrayHelper::index(User::find()->all(), 'id')
+            'newModel' => $newUser,
+            'rows' => ArrayHelper::index($users, 'id'), // for table rendering
+            'exclude' => [
+                User::ATTRIBUTE_AUTH_KEY,
+                User::ATTRIBUTE_PASSWORD,
+            ],
+            'title' => 'Users List',
+            'modelJson' => $usersById,
+            'route' => 'user',
+            'isActionsDisplayed' => $this->canChangeData(),
         ]);
     }
 
@@ -129,5 +153,4 @@ class DefaultController extends Controller
 
         return $this->redirect(['index']);
     }
-
 }

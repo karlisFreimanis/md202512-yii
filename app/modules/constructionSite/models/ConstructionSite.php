@@ -2,7 +2,7 @@
 
 namespace app\modules\constructionSite\models;
 
-use app\modules\tasks\models\Task;
+use app\modules\task\models\Task;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
