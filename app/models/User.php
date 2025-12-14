@@ -26,9 +26,8 @@ use yii\web\IdentityInterface;
  * @property string $password
  * @property string|null $auth_key
  *
- * @property Role[] $roles
+ * @property Role $role
  * @property Task[] $tasks
- * @property UserRole[] $userRoles
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -46,6 +45,7 @@ class User extends ActiveRecord implements IdentityInterface
             'first_name',
             'last_name',
             'access_level',
+            'role_id',
             self::ATTRIBUTE_PASSWORD,
         ];
 
@@ -56,6 +56,7 @@ class User extends ActiveRecord implements IdentityInterface
             'access_level',
             'birthday',
             'manager_id',
+            'role_id',
             // to preserve password
         ];
 
@@ -67,7 +68,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             [['manager_id', 'birthday', self::ATTRIBUTE_AUTH_KEY], 'default', 'value' => null],
             [['access_level'], 'default', 'value' => 0],
-            [['manager_id', 'access_level'], 'integer'],
+            [['manager_id', 'access_level', 'role_id'], 'integer'],
             [['username', 'first_name', 'last_name'], 'required'],
             [['birthday'], 'safe'],
             [['username', self::ATTRIBUTE_PASSWORD], 'string', 'max' => 255],
@@ -84,6 +85,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
+            'role_id' => 'Role',
             'manager_id' => 'Manager ID',
             'username' => 'Username',
             'first_name' => 'First Name',
@@ -149,15 +151,9 @@ class User extends ActiveRecord implements IdentityInterface
         return $this;
     }
 
-    /**
-     * Gets query for [[Roles]].
-     *
-     * @return ActiveQuery
-     * @throws InvalidConfigException
-     */
-    public function getRoles(): ActiveQuery
+    public function getRole(): ActiveQuery
     {
-        return $this->hasMany(Role::class, ['id' => 'role_id'])->viaTable('user_roles', ['user_id' => 'id']);
+        return $this->hasOne(Role::class, ['id' => 'role_id']);
     }
 
     public function hasRole(string $roleName): bool
@@ -190,6 +186,20 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasMany(Role::class, ['id' => 'role_id'])
             ->via('userRoles');
+    }
+
+    public function fields(): array
+    {
+        $fields = parent::fields();
+
+        if (Yii::$app->controller?->action?->id === 'index') {
+            unset(
+                $fields[User::ATTRIBUTE_AUTH_KEY],
+                $fields[User::ATTRIBUTE_PASSWORD]
+            );
+        }
+
+        return $fields;
     }
 
 }

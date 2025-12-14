@@ -16,7 +16,7 @@ class RoleAccessRule extends AccessRule
             return false;
         }
 
-        $currentUserRoles = array_column($user->identity->getRoles()->asArray()->all(), 'name');
+        $currentUserRoles = array_column($user->identity->getRole()->asArray()->all(), 'name');
         return (bool)array_intersect($this->roles, $currentUserRoles);
     }
 }

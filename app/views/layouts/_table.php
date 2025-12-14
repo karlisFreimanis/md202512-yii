@@ -117,11 +117,17 @@ endif; ?>
                         echo $form->field($newModel, $attr)->passwordInput(['id' => $inputId]);
                     } elseif (str_contains($attr, 'date') || $attr === 'birthday') {
                         echo $form->field($newModel, $attr)->input('date', ['id' => $inputId]);
-                    } elseif ($attr === 'user_id') {
+                    } elseif (in_array($attr, ['user_id', 'manager_id'])) {
                         // Foreign key dropdown
                         echo $form->field($newModel, $attr)->dropDownList(
-                            ArrayHelper::map($users, 'id', fn($row) => $row->first_name . ' ' . $row->last_name),
-                            ['prompt' => '— none —', 'id' => $inputId]
+                                ArrayHelper::map($users, 'id', fn($row) => $row->first_name . ' ' . $row->last_name),
+                                ['prompt' => '— none —', 'id' => $inputId]
+                        );
+                    } elseif ($attr === 'role_id') {
+                        // Foreign key dropdown
+                        echo $form->field($newModel, $attr)->dropDownList(
+                                ArrayHelper::map($roles, 'id', fn($row) => $row->name),
+                                ['prompt' => '— none —', 'id' => $inputId]
                         );
                     } else {
                         echo $form->field($newModel, $attr)->textInput(['id' => $inputId]);

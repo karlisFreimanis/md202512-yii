@@ -4,3 +4,4 @@
 3. Crud for users
 4. Add permissions to controllers
 5. Make user view reusable
+6. Show data based on role

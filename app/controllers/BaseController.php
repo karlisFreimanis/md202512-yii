@@ -56,7 +56,7 @@ abstract class BaseController extends Controller
     protected function canChangeData(): bool
     {
         $adminActions     = ['create', 'update', 'delete'];
-        $currentUserRoles = array_column(Yii::$app->user->identity->getRoles()->asArray()->all(), 'name');
+        $currentUserRoles = array_column(Yii::$app->user->identity->getRole()->asArray()->all(), 'name');
         $access           = $this->getBehavior('access');
         if (!$access) {
             return false;

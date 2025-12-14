@@ -21,10 +21,14 @@ $this->title = $title;
                         ? $rows[$user->manager_id]->first_name . ' ' . $rows[$user->manager_id]->last_name
                         : '-',
                 'birthday' => fn($user) => $user->birthday ?: '—',
+                'role_id' => fn($user) => $user->role_id
+                        ? $roles[$user->role_id]->name
+                        : '-',
         ],
         'newModel' => $newModel,
         'modelJson' => $modelJson,
         'route' => $route,
         'isActionsDisplayed' => $isActionsDisplayed,
         'users' => $users,
+        'roles' => $roles,
 ]) ?>

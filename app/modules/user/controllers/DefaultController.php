@@ -42,7 +42,10 @@ class DefaultController extends BaseController
     {
         $users   = User::find()->all();
         $newUser = new User();
-        $rows = ArrayHelper::index(User::find()->all(), 'id');
+        $rows = ArrayHelper::index(
+            $users,
+            'id'
+        );
 
         return $this->render('index', [
             'newModel' => $newUser,
@@ -56,6 +59,7 @@ class DefaultController extends BaseController
             'users' => $rows,
             'route' => 'user',
             'isActionsDisplayed' => $this->canChangeData(),
+            'roles' => ArrayHelper::index(Role::find()->all(), 'id'),
         ]);
     }
 }
