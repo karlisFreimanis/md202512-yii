@@ -7,6 +7,7 @@ namespace app\models;
 use app\modules\task\models\Task;
 use app\modules\user\models\Role;
 use Yii;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -146,6 +147,11 @@ class User extends ActiveRecord implements IdentityInterface
         $this->auth_key = Yii::$app->security->generateRandomString();
 
         return $this;
+    }
+
+    public function getRole(): ActiveQuery
+    {
+        return $this->hasOne(Role::class, ['id' => 'role_id']);
     }
 
     public function fields(): array

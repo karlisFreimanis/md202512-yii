@@ -31,7 +31,7 @@ class m251209_085647_create_users_table extends Migration
         // Seed users
         $users = [
             ['admin', 2, 'John', 'Doe', '1990-01-01', 'admin', null, 0],
-            ['manager', 2, 'Jane', 'Smith', '1985-05-12', 'manager', null, 2], // admin is manager
+            ['manager', 3, 'Jane', 'Smith', '1985-05-12', 'manager', null, 2], // admin is manager
             ['employee', 1, 'Mike', 'Johnson', '1992-07-23', 'employee', 2, 0], // manager is manager
             ['user4', 1, 'Emily', 'Brown', '1995-03-15', 'user4', 2, 0],
             ['user5', 1, 'Chris', 'Davis', '1988-11-30', 'user5', 2, 0],
