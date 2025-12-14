@@ -16,13 +16,9 @@ $this->title = $title;
 <?= $this->render('@app/views/layouts/_table.php', [
         'rows' => $rows,
         'exclude' => $exclude ?? [],
-        'formatters' => [
-                'manager_id' => fn($user) => $user->manager_id
-                        ? $rows[$user->manager_id]->first_name . ' ' . $rows[$user->manager_id]->last_name
-                        : '-',
-                'birthday' => fn($user) => $user->birthday ?: '—',
-        ],
+        'formatters' => [],
         'newModel' => $newModel,
         'modelJson' => $modelJson,
         'route' => $route,
+        'isActionsDisplayed' => $isActionsDisplayed,
 ]) ?>

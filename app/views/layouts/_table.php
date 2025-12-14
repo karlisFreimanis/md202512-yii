@@ -8,6 +8,7 @@ $model      = reset($rows);
 $exclude    = $exclude ?? [];
 $attributes = array_diff(array_keys($model->attributes), $exclude);
 $labels     = $model->attributeLabels();
+$users      = $users ?? [];
 
 ?>
 
@@ -60,7 +61,7 @@ endif; ?>
                     <?= Html::a('<i class="bi bi-trash"></i>', ['/' . $route . '/delete', 'id' => $row->id], [
                         'title' => 'Delete',
                         'data' => [
-                            'confirm' => 'Are you sure you want to delete this user?',
+                            'confirm' => 'Are you sure you want to delete?',
                             'method' => 'post',
                         ],
                         'class' => 'ms-2 text-danger'
@@ -116,10 +117,10 @@ endif; ?>
                         echo $form->field($newModel, $attr)->passwordInput(['id' => $inputId]);
                     } elseif (str_contains($attr, 'date') || $attr === 'birthday') {
                         echo $form->field($newModel, $attr)->input('date', ['id' => $inputId]);
-                    } elseif (str_ends_with($attr, '_id') && $attr !== 'id') {
+                    } elseif ($attr === 'user_id') {
                         // Foreign key dropdown
                         echo $form->field($newModel, $attr)->dropDownList(
-                            ArrayHelper::map($rows, 'id', fn($r) => $r->first_name . ' ' . $r->last_name),
+                            ArrayHelper::map($users, 'id', fn($row) => $row->first_name . ' ' . $row->last_name),
                             ['prompt' => '— none —', 'id' => $inputId]
                         );
                     } else {
@@ -145,7 +146,6 @@ endif; ?>
 
 <script>
     const records = <?= Json::htmlEncode($modelJson) ?>; // correctly encodes PHP array to JS
-    console.log('Records:', records);
 
     // CREATE
     $('#create-record-btn').on('click', () => {

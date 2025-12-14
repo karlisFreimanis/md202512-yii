@@ -5,22 +5,25 @@ declare(strict_types=1);
 namespace app\modules\user\repositories;
 
 use app\models\User;
+use app\repositories\BaseRepository;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 
-class UserRepository
+class UserRepository extends BaseRepository
 {
+    protected string $modelClass = User::class;
+
     /**
-     * @param array $postData
+     * @param array $data
      * @return User
      * @throws Exception
      * @throws \yii\db\Exception
      */
-    public function create(array $postData): User
+    public function create(array $data): User
     {
         $user           = new User();
         $user->scenario = User::SCENARIO_CREATE;
-        $user->load($postData);
+        $user->load($data);
         $user->hashPassword()
             ->hashAuthKey();
 
@@ -33,31 +36,16 @@ class UserRepository
 
     /**
      * @param int $id
-     * @return bool
-     * @throws \yii\db\Exception
-     */
-    public function delete(int $id): bool
-    {
-        $user = User::findOne(['id' => $id]);
-        try {
-            return (bool)$user->delete();
-        } catch (\Throwable $e) {
-            throw new \yii\db\Exception($e->getMessage());
-        }
-    }
-
-    /**
-     * @param int $id
-     * @param array $postData
+     * @param array $data
      * @return User
      * @throws Exception
      * @throws \yii\db\Exception
      */
-    public function update(int $id, array $postData): User {
+    public function update(int $id, array $data): User {
         $user = User::findOne(['id' => $id]);
 
         $user->scenario = User::SCENARIO_UPDATE;
-        $user->load($postData);
+        $user->load($data);
 
         if (!$user->save()) {
             throw new Exception('User update failed: ' . json_encode($user->errors));

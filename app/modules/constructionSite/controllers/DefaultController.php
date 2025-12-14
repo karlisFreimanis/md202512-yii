@@ -2,19 +2,43 @@
 
 namespace app\modules\constructionSite\controllers;
 
+use app\controllers\BaseController;
+use app\models\User;
 use app\modules\constructionSite\models\ConstructionSite;
+use app\modules\constructionSite\repositories\ConstructionSiteRepository;
+use app\modules\user\models\Role;
 use yii\helpers\ArrayHelper;
-use yii\web\Controller;
 
 /**
  * Default controller for the `constructionSite` module
  */
-class DefaultController extends Controller
+class DefaultController extends BaseController
 {
+    public function init(): void
+    {
+        $this->repository = new ConstructionSiteRepository();
+        parent::init();
+    }
+
+    protected function getRules(): array
+    {
+        return [
+            [
+                'actions' => ['create', 'update', 'delete'],
+                'allow' => true,
+                'roles' => [Role::ROLE_ADMIN],
+            ],
+            [
+                'actions' => ['index'],
+                'allow' => true,
+                'roles' => Role::ROLE_ALL,
+            ],
+        ];
+    }
+
     public function actionIndex(): string
     {
         $constructionSites   = ConstructionSite::find()->all();
-
         $modelsById = [];
         foreach (ArrayHelper::toArray($constructionSites) as $constructionSite) {
             $modelsById[$constructionSite['id']] = $constructionSite;
@@ -25,8 +49,9 @@ class DefaultController extends Controller
             'rows' => ArrayHelper::index($constructionSites, 'id'), // for table rendering
             'exclude' => [],
             'title' => 'Construction Site List',
-            'modelJson' => json_encode($modelsById),
+            'modelJson' => $modelsById,
             'route' => 'constructionSite',
+            'isActionsDisplayed' => $this->canChangeData(),
         ]);
     }
 }

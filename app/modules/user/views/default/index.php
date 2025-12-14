@@ -26,4 +26,5 @@ $this->title = $title;
         'modelJson' => $modelJson,
         'route' => $route,
         'isActionsDisplayed' => $isActionsDisplayed,
+        'users' => $users,
 ]) ?>
