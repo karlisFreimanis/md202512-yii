@@ -41,7 +41,6 @@ abstract class BaseController extends Controller
                 ],
             ],
             'access' => [
-                // 'only' => ['create', 'update', 'delete'], // restrict all
                 'class' => AccessControl::class,
                 'ruleConfig' => [
                     'class' => RoleAccessRule::class,
@@ -81,7 +80,7 @@ abstract class BaseController extends Controller
     {
         try {
             $this->repository->delete($id);
-            Yii::$app->session->setFlash('success', $this->objectName. ' deleted.');
+            Yii::$app->session->setFlash('success', $this->objectName . ' deleted.');
         } catch (\Throwable $e) {
             Yii::$app->session->setFlash(
                 'error',

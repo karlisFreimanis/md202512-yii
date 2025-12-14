@@ -37,7 +37,9 @@ class DefaultController extends BaseController
 
     public function actionIndex(): string
     {
-        $rows = $this->repository()->getUserTasks(Yii::$app->user->identity);
+        /** @var TaskRepository $repository */
+        $repository = $this->repository;
+        $rows       = $repository->getUserTasks(Yii::$app->user->identity);
         return $this->render('index', [
             'newModel' => new Task(),
             'rows' => ArrayHelper::index($rows, 'id'), // for table rendering

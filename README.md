@@ -28,3 +28,4 @@ Look for file -> demo.mp4
 5. Make user view reusable
 6. Show data based on role
 7. set up readme
+8. cleanup written code

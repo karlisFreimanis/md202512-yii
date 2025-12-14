@@ -20,7 +20,8 @@ class DefaultController extends BaseController
         parent::init();
     }
 
-    protected function getRules() :array {
+    protected function getRules(): array
+    {
         return [
             [
                 'actions' => ['create', 'update', 'delete'],
@@ -43,7 +44,7 @@ class DefaultController extends BaseController
     {
         $users   = $this->repository()->getLinkedUsers(Yii::$app->user->identity);
         $newUser = new User();
-        $rows = ArrayHelper::index(
+        $rows    = ArrayHelper::index(
             $users,
             'id'
         );

@@ -52,15 +52,4 @@ class ConstructionSite extends ActiveRecord
             'area' => 'Area',
         ];
     }
-
-    /**
-     * Gets query for [[Tasks]].
-     *
-     * @return ActiveQuery
-     */
-    public function getTasks(): ActiveQuery
-    {
-        return $this->hasMany(Task::class, ['construction_site_id' => 'id']);
-    }
-
 }

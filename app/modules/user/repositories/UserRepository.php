@@ -42,7 +42,8 @@ class UserRepository extends BaseRepository
      * @throws Exception
      * @throws \yii\db\Exception
      */
-    public function update(int $id, array $data): User {
+    public function update(int $id, array $data): User
+    {
         $user = User::findOne(['id' => $id]);
 
         $user->scenario = User::SCENARIO_UPDATE;
@@ -55,6 +56,10 @@ class UserRepository extends BaseRepository
         return $user;
     }
 
+    /**
+     * @param User $user
+     * @return User[]
+     */
     public function getLinkedUsers(User $user): array
     {
         return match ($user->role->name) {

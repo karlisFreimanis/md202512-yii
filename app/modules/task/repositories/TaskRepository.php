@@ -11,7 +11,11 @@ class TaskRepository extends BaseRepository
 {
     protected string $modelClass = Task::class;
 
-    public function getUserTasks(User $user)
+    /**
+     * @param User $user
+     * @return Task[]
+     */
+    public function getUserTasks(User $user): array
     {
         return match ($user->role->name) {
             Role::ROLE_ADMIN => Task::find()->all(),
@@ -23,7 +27,11 @@ class TaskRepository extends BaseRepository
         };
     }
 
-    private function getManagerTasks(User $user)
+    /**
+     * @param User $user
+     * @return Task[]
+     */
+    private function getManagerTasks(User $user): array
     {
         $constructionSites = ConstructionSite::find()
             ->where(['<=', 'access_level', $user->access_level])

@@ -23,8 +23,6 @@ use yii\db\ActiveRecord;
  */
 class Task extends ActiveRecord
 {
-
-
     /**
      * {@inheritdoc}
      */
@@ -46,8 +44,20 @@ class Task extends ActiveRecord
             [['user_id', 'construction_site_id'], 'integer'],
             [['start_time', 'end_time'], 'safe'],
             [['name'], 'string', 'max' => 255],
-            [['construction_site_id'], 'exist', 'skipOnError' => true, 'targetClass' => ConstructionSite::class, 'targetAttribute' => ['construction_site_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [
+                ['construction_site_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => ConstructionSite::class,
+                'targetAttribute' => ['construction_site_id' => 'id']
+            ],
+            [
+                ['user_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => User::class,
+                'targetAttribute' => ['user_id' => 'id'],
+            ],
         ];
     }
 

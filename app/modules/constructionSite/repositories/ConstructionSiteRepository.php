@@ -12,6 +12,10 @@ class ConstructionSiteRepository extends BaseRepository
 {
     protected string $modelClass = ConstructionSite::class;
 
+    /**
+     * @param User $user
+     * @return ConstructionSite[]
+     */
     public function getUserConstructionSites(User $user): array
     {
         return match ($user->role->name) {
@@ -24,6 +28,10 @@ class ConstructionSiteRepository extends BaseRepository
         };
     }
 
+    /**
+     * @param User $user
+     * @return ConstructionSite[]
+     */
     public function getEmployeeConstructionSites(User $user): array
     {
         $tasks = Task::find()->where(['user_id' => $user->id])->all();

@@ -3,7 +3,6 @@
 namespace app\modules\constructionSite\controllers;
 
 use app\controllers\BaseController;
-use app\models\User;
 use app\modules\constructionSite\models\ConstructionSite;
 use app\modules\constructionSite\repositories\ConstructionSiteRepository;
 use app\modules\user\models\Role;
@@ -39,8 +38,10 @@ class DefaultController extends BaseController
 
     public function actionIndex(): string
     {
-        $constructionSites = $this->repository()->getUserConstructionSites(Yii::$app->user->identity);
-        $modelsById = [];
+        /** @var ConstructionSiteRepository $repository */
+        $repository        = $this->repository();
+        $constructionSites = $repository->getUserConstructionSites(Yii::$app->user->identity);
+        $modelsById        = [];
         foreach (ArrayHelper::toArray($constructionSites) as $constructionSite) {
             $modelsById[$constructionSite['id']] = $constructionSite;
         }

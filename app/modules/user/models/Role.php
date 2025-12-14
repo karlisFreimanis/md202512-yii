@@ -4,8 +4,6 @@
 namespace app\modules\user\models;
 
 use app\models\User;
-use yii\base\InvalidConfigException;
-use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "roles".
@@ -21,7 +19,7 @@ class Role extends \yii\db\ActiveRecord
     public const string ROLE_ADMIN = 'admin';
     public const string ROLE_MANAGER = 'manager';
     public const string ROLE_EMPLOYEE = 'employee';
-    public const ROLE_ALL = [
+    public const array ROLE_ALL = [
         self::ROLE_ADMIN,
         self::ROLE_MANAGER,
         self::ROLE_EMPLOYEE,

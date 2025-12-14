@@ -6,10 +6,7 @@ namespace app\models;
 
 use app\modules\task\models\Task;
 use app\modules\user\models\Role;
-use app\modules\user\models\UserRole;
 use Yii;
-use yii\base\InvalidConfigException;
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -149,43 +146,6 @@ class User extends ActiveRecord implements IdentityInterface
         $this->auth_key = Yii::$app->security->generateRandomString();
 
         return $this;
-    }
-
-    public function getRole(): ActiveQuery
-    {
-        return $this->hasOne(Role::class, ['id' => 'role_id']);
-    }
-
-    public function hasRole(string $roleName): bool
-    {
-        foreach ($this->roles as $role) {
-            if ($role->name === $roleName) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Gets query for [[Tasks]].
-     *
-     * @return ActiveQuery
-     */
-    public function getTasks(): ActiveQuery
-    {
-        return $this->hasMany(Task::class, ['user_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[UserRoles]].
-     *
-     * @return ActiveQuery
-     */
-    public function getUserRoles(): ActiveQuery
-    {
-        return $this->hasMany(Role::class, ['id' => 'role_id'])
-            ->via('userRoles');
     }
 
     public function fields(): array
