@@ -9,11 +9,16 @@ cp -a .env.example .env
 docker compose up -d 
 ```
 ```
+docker exec -it 202512-kf-md-php /bin/sh
+```
+```
 composer install 
 ```
 ```
 ./yii migrate
 ```
+## Demo 
+Look for file -> demo.mp4
 
 # Tasks
 1. Setup project
