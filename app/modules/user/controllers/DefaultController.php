@@ -6,6 +6,7 @@ use app\controllers\BaseController;
 use app\models\User;
 use app\modules\user\models\Role;
 use app\modules\user\repositories\UserRepository;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -40,7 +41,7 @@ class DefaultController extends BaseController
      */
     public function actionIndex(): string
     {
-        $users   = User::find()->all();
+        $users   = $this->repository()->getLinkedUsers(Yii::$app->user->identity);
         $newUser = new User();
         $rows = ArrayHelper::index(
             $users,
@@ -56,7 +57,10 @@ class DefaultController extends BaseController
             ],
             'title' => 'Users List',
             'modelJson' => $rows,
-            'users' => $rows,
+            'users' => ArrayHelper::index(
+                User::find()->all(),
+                'id'
+            ),
             'route' => 'user',
             'isActionsDisplayed' => $this->canChangeData(),
             'roles' => ArrayHelper::index(Role::find()->all(), 'id'),

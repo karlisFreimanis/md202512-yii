@@ -7,6 +7,7 @@ use app\models\User;
 use app\modules\constructionSite\models\ConstructionSite;
 use app\modules\constructionSite\repositories\ConstructionSiteRepository;
 use app\modules\user\models\Role;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -38,7 +39,7 @@ class DefaultController extends BaseController
 
     public function actionIndex(): string
     {
-        $constructionSites   = ConstructionSite::find()->all();
+        $constructionSites = $this->repository()->getUserConstructionSites(Yii::$app->user->identity);
         $modelsById = [];
         foreach (ArrayHelper::toArray($constructionSites) as $constructionSite) {
             $modelsById[$constructionSite['id']] = $constructionSite;

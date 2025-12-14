@@ -41,12 +41,13 @@ class m251209_100320_create_task_table extends Migration
                 $i,               // construction_site_id
                 date('Y-m-d H:i:s', strtotime("+$i days")), // start_time
                 date('Y-m-d H:i:s', strtotime("+".($i+1)." days")), // end_time
+                (bool)rand(0,1),
             ];
         }
 
         $this->batchInsert(
             'tasks',
-            ['name', 'user_id', 'construction_site_id', 'start_time', 'end_time'],
+            ['name', 'user_id', 'construction_site_id', 'start_time', 'end_time', 'is_completed'],
             $tasks
         );
     }

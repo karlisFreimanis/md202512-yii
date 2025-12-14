@@ -18,7 +18,7 @@ $this->title = $title;
         'exclude' => $exclude ?? [],
         'formatters' => [
                 'manager_id' => fn($user) => $user->manager_id
-                        ? $rows[$user->manager_id]->first_name . ' ' . $rows[$user->manager_id]->last_name
+                        ? $users[$user->manager_id]->first_name . ' ' . $users[$user->manager_id]->last_name
                         : '-',
                 'birthday' => fn($user) => $user->birthday ?: '—',
                 'role_id' => fn($user) => $user->role_id

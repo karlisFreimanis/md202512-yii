@@ -29,7 +29,7 @@ class m251209_100223_create_construction_sites_table extends Migration
             ['987 Cedar Blvd', 1, 900],
             ['159 Birch Way', 2, 700],
             ['753 Spruce Dr', 3, 1100],
-            ['852 Walnut St', 1, 950],
+            ['852 Walnut St', 3, 950],
             ['951 Cherry Ct', 2, 1000],
         ];
 

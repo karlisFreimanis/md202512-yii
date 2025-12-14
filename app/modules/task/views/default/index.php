@@ -23,6 +23,9 @@ $this->title = $title;
                 'construction_site_id' => fn($task) => $task->construction_site_id
                         ? $constructionSites[$task->construction_site_id]->address
                         : '-',
+                'is_completed' => fn($task) => $task->is_completed
+                        ? 'Completed'
+                        : 'Not Completed',
         ],
         'newModel' => $newModel,
         'modelJson' => $modelJson,

@@ -30,16 +30,16 @@ class m251209_085647_create_users_table extends Migration
 
         // Seed users
         $users = [
-            ['admin', 2, 'John', 'Doe', '1990-01-01', 'admin', null],
-            ['manager', 3, 'Jane', 'Smith', '1985-05-12', 'manager', null], // admin is manager
-            ['employee', 1, 'Mike', 'Johnson', '1992-07-23', 'employee', 2], // manager is manager
-            ['user4', 1, 'Emily', 'Brown', '1995-03-15', 'user4', 2],
-            ['user5', 1, 'Chris', 'Davis', '1988-11-30', 'user5', 2],
-            ['user6', 1, 'Anna', 'Miller', '1991-09-05', 'user6', null],
-            ['user7', 1, 'Tom', 'Wilson', '1993-02-20', 'user7', null],
-            ['user8', 1, 'Laura', 'Moore', '1989-08-14', 'user8', null],
-            ['user9', 1, 'James', 'Taylor', '1994-12-09', 'user9', 2],
-            ['user10', 1, 'Olivia', 'Anderson', '1996-06-17', 'user10', 2],
+            ['admin', 2, 'John', 'Doe', '1990-01-01', 'admin', null, 0],
+            ['manager', 2, 'Jane', 'Smith', '1985-05-12', 'manager', null, 2], // admin is manager
+            ['employee', 1, 'Mike', 'Johnson', '1992-07-23', 'employee', 2, 0], // manager is manager
+            ['user4', 1, 'Emily', 'Brown', '1995-03-15', 'user4', 2, 0],
+            ['user5', 1, 'Chris', 'Davis', '1988-11-30', 'user5', 2, 0],
+            ['user6', 1, 'Anna', 'Miller', '1991-09-05', 'user6', null, 0],
+            ['user7', 1, 'Tom', 'Wilson', '1993-02-20', 'user7', null, 0],
+            ['user8', 1, 'Laura', 'Moore', '1989-08-14', 'user8', null, 0],
+            ['user9', 1, 'James', 'Taylor', '1994-12-09', 'user9', 2, 0],
+            ['user10', 1, 'Olivia', 'Anderson', '1996-06-17', 'user10', 2, 0],
         ];
 
         $insertData = [];
@@ -53,12 +53,13 @@ class m251209_085647_create_users_table extends Migration
                 Yii::$app->security->generatePasswordHash($u[5]), // hashed password
                 Yii::$app->security->generateRandomString(), // auth_key
                 $u[6], // manager_id
+                $u[7], // access_level
             ];
         }
 
         $this->batchInsert(
             'users',
-            ['username', 'role_id', 'first_name', 'last_name', 'birthday', 'password', 'auth_key', 'manager_id'],
+            ['username', 'role_id', 'first_name', 'last_name', 'birthday', 'password', 'auth_key', 'manager_id', 'access_level'],
             $insertData
         );
     }

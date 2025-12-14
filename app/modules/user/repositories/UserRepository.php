@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\modules\user\repositories;
 
 use app\models\User;
+use app\modules\user\models\Role;
 use app\repositories\BaseRepository;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
@@ -52,5 +53,17 @@ class UserRepository extends BaseRepository
         }
 
         return $user;
+    }
+
+    public function getLinkedUsers(User $user): array
+    {
+        return match ($user->role->name) {
+            Role::ROLE_ADMIN => User::find()->all(),
+            Role::ROLE_MANAGER => User::find()
+                ->where(['manager_id' => $user->id])
+                ->all(),
+            Role::ROLE_EMPLOYEE => [$user],
+            default => [],
+        };
     }
 }

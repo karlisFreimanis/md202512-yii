@@ -8,6 +8,7 @@ use app\modules\constructionSite\models\ConstructionSite;
 use app\modules\task\models\Task;
 use app\modules\task\repositories\TaskRepository;
 use app\modules\user\models\Role;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 class DefaultController extends BaseController
@@ -24,7 +25,7 @@ class DefaultController extends BaseController
             [
                 'actions' => ['create', 'update', 'delete'],
                 'allow' => true,
-                'roles' => [Role::ROLE_ADMIN],
+                'roles' => [Role::ROLE_ADMIN, Role::ROLE_MANAGER],
             ],
             [
                 'actions' => ['index'],
@@ -36,7 +37,7 @@ class DefaultController extends BaseController
 
     public function actionIndex(): string
     {
-        $rows = ArrayHelper::index(Task::find()->all(), 'id');
+        $rows = $this->repository()->getUserTasks(Yii::$app->user->identity);
         return $this->render('index', [
             'newModel' => new Task(),
             'rows' => ArrayHelper::index($rows, 'id'), // for table rendering

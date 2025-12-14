@@ -55,9 +55,8 @@ abstract class BaseController extends Controller
 
     protected function canChangeData(): bool
     {
-        $adminActions     = ['create', 'update', 'delete'];
-        $currentUserRoles = array_column(Yii::$app->user->identity->getRole()->asArray()->all(), 'name');
-        $access           = $this->getBehavior('access');
+        $adminActions = ['create', 'update', 'delete'];
+        $access       = $this->getBehavior('access');
         if (!$access) {
             return false;
         }
@@ -65,7 +64,7 @@ abstract class BaseController extends Controller
         foreach ($access->rules as $rule) {
             /** @var RoleAccessRule $rule */
             if (array_intersect($rule->actions, $adminActions)) {
-                if (!empty(array_intersect($currentUserRoles, $rule->roles))) {
+                if (in_array(Yii::$app->user->identity->role->name, $rule->roles)) {
                     return true;
                 }
             }
