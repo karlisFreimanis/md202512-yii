@@ -17,6 +17,10 @@ composer install
 ```
 ./yii migrate
 ```
+```
+http://localhost:8824
+```
+
 ## Demo 
 Look for file -> demo.mp4
 
